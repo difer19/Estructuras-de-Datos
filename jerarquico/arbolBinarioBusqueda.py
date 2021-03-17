@@ -1,4 +1,4 @@
-from jerarquico.nodo import NodoArbolBinario
+from jerarquico.nodoArbolBinario import NodoArbolBinario
 
 
 class ArbolBinarioBusqueda:
