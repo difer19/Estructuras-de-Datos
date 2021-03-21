@@ -35,7 +35,7 @@ class ArbolAVL:
             elif nueva_clave > sub_arbol.clave:
                 sub_arbol.der = self.__adicionar(sub_arbol.der, nueva_clave)    
         
-        sub_arbol.height = 1 + 1 + max(self.__getAltura(sub_arbol.izq), self.__getAltura(sub_arbol.der))
+        sub_arbol.height = 1 + max(self.__getAltura(sub_arbol.izq), self.__getAltura(sub_arbol.der))
 
         balance = self.getBalance(sub_arbol)
 
@@ -85,15 +85,15 @@ class ArbolAVL:
         sub_arbol.height = 1 + max(self.__getAltura(sub_arbol.izq), self.__getAltura(sub_arbol.der)) 
   
         balance = self.getBalance(sub_arbol) 
-  
+        
         if balance > 1 and self.getBalance(sub_arbol.izq) >= 0: 
             return self.rotacionDerecha(sub_arbol)
-        if balance < -1 and self.getBalance(sub_arbol.der) <= 0: 
+        elif balance < -1 and self.getBalance(sub_arbol.der) <= 0: 
             return self.rotacionIzquierda(sub_arbol) 
-        if balance > 1 and self.getBalance(sub_arbol.izq) < 0: 
+        elif balance > 1 and self.getBalance(sub_arbol.izq) < 0: 
             sub_arbol.izq = self.rotacionIzquierda(sub_arbol.izq) 
             return self.rotacionDerecha(sub_arbol) 
-        if balance < -1 and self.getBalance(sub_arbol.der) > 0: 
+        elif balance < -1 and self.getBalance(sub_arbol.der) > 0: 
             sub_arbol.der = self.rotacionDerecha(sub_arbol.der) 
             return self.rotacionIzquierda(sub_arbol) 
         return sub_arbol

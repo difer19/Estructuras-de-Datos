@@ -3,9 +3,9 @@ from jerarquico.recorridos import *
 
 
 myTree = ArbolAVL()
-myTree.insertar(30)
-myTree.insertar(20)
-myTree.insertar(25)
+myTree.insertar(1)
+myTree.insertar(2)
+myTree.insertar(3)
 preorden(myTree)
 print("--------------------")
 print(myTree.buscar(15))
@@ -16,7 +16,7 @@ print(myTree.internos())
 print("--------------------")
 print(myTree.altura())
 print("--------------------")
-myTree.eliminar(30)
+myTree.eliminar(1)
 preorden(myTree)
 
  
