@@ -1,6 +1,6 @@
-from ed.secuenciales.listaSE import ListaSE
-from ed.secuenciales.cola import Cola
-from ed.secuenciales.iterador_ListaSE import Iterador_ListaSE
+from secuenciales.listaSE import ListaSE
+from secuenciales.cola import Cola
+from secuenciales.iterador_ListaSE import Iterador_ListaSE
 
 
 class ItemColadeprioridad:
@@ -95,7 +95,7 @@ class Colaprioridad:
                     pri = a.frente().dato.prioridad
                     it = 1
                 else:
-                    if pri > a.frente().dato.prioridad:
+                    if pri < a.frente().dato.prioridad:
                         pri = a.frente().dato.prioridad
             for a in self.Listp:
                 if a.frente().dato.prioridad == pri:

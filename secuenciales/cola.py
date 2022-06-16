@@ -46,7 +46,7 @@ class Cola:
             [Object]: [Elemento que esta en el frente de la
             Cola]
         """
-        return self.nodo_cab.dato
+        return self.nodo_cab
     
     def es_vacia(self):
         """Metodo que identifica si la Cola esta vacia
