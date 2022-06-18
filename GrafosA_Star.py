@@ -66,7 +66,7 @@ class nodoGrafo:
             valor_heuristico += 10
         
         #if self.nivel > 15:
-        #    valor_heuristico -= 15
+        #    valor_heuristico -= 100
 
         return valor_heuristico - self.nivel
     
@@ -157,7 +157,7 @@ class nodoGrafo:
 def inAbiertos(abiertos, estado):
     flag = False
     for abierto in abiertos:
-        if abierto.__eq__(estado):
+        if abierto.dato.__eq__(estado):
             flag = True
             break
     return flag
@@ -192,11 +192,10 @@ if __name__ == "__main__":
         estado_actual = abiertos.desencolar().dato
         print(estado_actual)
         print("=======================")
-        if estado_actual not in cerrados:
-            sucesores = estado_actual.generarEstadosSucesores()
-            for estado in sucesores:
-                if (inAbiertos(abiertos, estado)) or len(abiertos) == 0:
-                    abiertos.encolar(estado, estado.funcion_heuristica)
+        sucesores = estado_actual.generarEstadosSucesores()
+        for estado in sucesores:
+            if not inAbiertos(abiertos, estado) and estado not in cerrados:
+                abiertos.encolar(estado, estado.funcion_heuristica)
         cerrados.append(estado_actual)
         contador += 1
     if estado_actual.__eq__(estado_objetivo):
