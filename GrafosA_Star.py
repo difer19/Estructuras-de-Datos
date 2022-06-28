@@ -1,4 +1,3 @@
-from typing_extensions import Self
 from secuenciales.colaprioridad import *
 from secuenciales.pila import Pila
 import copy
@@ -18,55 +17,53 @@ class nodoGrafo:
             return self.padre.nivel + 1
         else:
             return 0
+
+    def calcularFuncionHeuristicaTorre(self, torre, idTorre):
+        iteracion = 0   
+        aux_disco = 0
+        valor_heuristico_torre = 0
+        if len(torre) > 0:
+            for disco in torre:
+                if iteracion == 0:
+                    aux_disco = disco
+                    iteracion += 1
+                elif aux_disco < disco:
+                    if idTorre == "A": valor_heuristico_torre += 1
+                    if idTorre == "B": valor_heuristico_torre += 5
+                    if idTorre == "C": valor_heuristico_torre += 10
+                    aux_disco = disco
+                elif aux_disco > disco:
+                    valor_heuristico_torre -= 1000
+            
+            if idTorre == "A": valor_heuristico_torre += 1
+            if idTorre == "B": valor_heuristico_torre += 5
+            if idTorre == "C": valor_heuristico_torre += 10
+        
+        return valor_heuristico_torre
+        
     
     def CalcularFuncionHeuristica(self):
         valor_heuristico = 0
-        iteracion = 0
-        aux_disco = 0
 
-        if len(self.torreA) > 0:
-            for disco in self.torreA:
-                if iteracion == 0:
-                    aux_disco = disco
-                    iteracion += 1
-                elif aux_disco < disco:
-                    valor_heuristico += 1
-                    aux_disco = disco
-                elif aux_disco > disco:
-                    valor_heuristico -= 1000
-            
-            valor_heuristico += 1
-        
-        iteracion = 0
-        if len(self.torreB) > 0:
-            for disco in self.torreB:
-                if iteracion == 0:
-                    aux_disco = disco
-                    iteracion += 1
-                elif aux_disco < disco:
-                    valor_heuristico += 5
-                    aux_disco = disco
-                elif aux_disco > disco:
-                    valor_heuristico -= 1000
-            
-            valor_heuristico += 5
-
-        iteracion = 0
-        if len(self.torreC) > 0:          
+        valor_heuristico += self.calcularFuncionHeuristicaTorre(self.torreA, "A")
+        valor_heuristico += self.calcularFuncionHeuristicaTorre(self.torreB, "B")
+        valor_heuristico += self.calcularFuncionHeuristicaTorre(self.torreC, "C")
+ 
+        if len(self.torreC) > 0:
+            actual = 0
             for disco in self.torreC:
-                if iteracion == 0:
-                    aux_disco = disco
-                    iteracion += 1
-                elif aux_disco < disco:
-                    valor_heuristico += 10
-                    aux_disco = disco
-                elif aux_disco > disco:
-                    valor_heuristico -= 1000
-            
-            valor_heuristico += 10
-        
-        #if self.nivel > 15:
-        #    valor_heuristico -= 100
+                actual = disco
+            if actual == 4:
+                valor_heuristico += 15
+            if actual == 3:
+                valor_heuristico += 10
+            if actual == 2:
+                valor_heuristico += 5
+            if actual == 1:
+                valor_heuristico += 1
+
+        if self.nivel > 15:
+            valor_heuristico -= 15
 
         return valor_heuristico - self.nivel
     
@@ -153,6 +150,13 @@ class nodoGrafo:
         estado += "\n"
         estado += "FH = " + str(self.funcion_heuristica)
         return estado
+    
+    def backtracking(self, list_solucion):
+        list_solucion.append(self)
+        if self.padre is not None:
+            return self.padre.backtracking(list_solucion)
+        else:
+            return 0
 
 def inAbiertos(abiertos, estado):
     flag = False
@@ -161,7 +165,6 @@ def inAbiertos(abiertos, estado):
             flag = True
             break
     return flag
-    
 
 if __name__ == "__main__":
     abiertos = Colaprioridad()
@@ -187,7 +190,7 @@ if __name__ == "__main__":
     estado_objetivo = nodoGrafo(None, torreAo, torreBo, torreCo)
     abiertos.encolar(estado_inicial, estado_inicial.funcion_heuristica)
     estado_actual = estado_inicial
-    contador = 0
+    iteraciones = 0
     while not (estado_actual.__eq__(estado_objetivo)) and len(abiertos) > 0:
         estado_actual = abiertos.desencolar().dato
         print(estado_actual)
@@ -197,11 +200,23 @@ if __name__ == "__main__":
             if not inAbiertos(abiertos, estado) and estado not in cerrados:
                 abiertos.encolar(estado, estado.funcion_heuristica)
         cerrados.append(estado_actual)
-        contador += 1
+        iteraciones += 1
     if estado_actual.__eq__(estado_objetivo):
         print("Exito")
-        print(estado_actual.nivel)
-        print(contador)
+        print("Nivel : " + str(estado_actual.nivel))
+        print("Iteraciones : " + str(iteraciones))
+        # list_solucion = []
+        # estado_actual.backtracking(list_solucion)
+        # for solucion in reversed(list_solucion):
+        #     print("=======================")
+        #     print(solucion)
+    else:
+        print("No se pudo encontrar una solucion")
+
+    
+
+    
+
 
         
         
