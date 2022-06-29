@@ -29,14 +29,14 @@ class nodoGrafo:
                     iteracion += 1
                 elif aux_disco < disco:
                     if idTorre == "A": valor_heuristico_torre += 1
-                    if idTorre == "B": valor_heuristico_torre += 5
+                    if idTorre == "B": valor_heuristico_torre += 15
                     if idTorre == "C": valor_heuristico_torre += 10
                     aux_disco = disco
                 elif aux_disco > disco:
                     valor_heuristico_torre -= 1000
             
             if idTorre == "A": valor_heuristico_torre += 1
-            if idTorre == "B": valor_heuristico_torre += 5
+            if idTorre == "B": valor_heuristico_torre += 15
             if idTorre == "C": valor_heuristico_torre += 10
         
         return valor_heuristico_torre
@@ -56,7 +56,7 @@ class nodoGrafo:
             if actual == 4:
                 valor_heuristico += 15
             if actual == 3:
-                valor_heuristico += 10
+                valor_heuristico += 10 
             if actual == 2:
                 valor_heuristico += 5
             if actual == 1:
@@ -193,8 +193,8 @@ if __name__ == "__main__":
     iteraciones = 0
     while not (estado_actual.__eq__(estado_objetivo)) and len(abiertos) > 0:
         estado_actual = abiertos.desencolar().dato
-        print(estado_actual)
-        print("=======================")
+        # print(estado_actual)
+        # print("=======================")
         sucesores = estado_actual.generarEstadosSucesores()
         for estado in sucesores:
             if not inAbiertos(abiertos, estado) and estado not in cerrados:
@@ -205,11 +205,11 @@ if __name__ == "__main__":
         print("Exito")
         print("Nivel : " + str(estado_actual.nivel))
         print("Iteraciones : " + str(iteraciones))
-        # list_solucion = []
-        # estado_actual.backtracking(list_solucion)
-        # for solucion in reversed(list_solucion):
-        #     print("=======================")
-        #     print(solucion)
+        list_solucion = []
+        estado_actual.backtracking(list_solucion)
+        for solucion in reversed(list_solucion):
+            print("=======================")
+            print(solucion)
     else:
         print("No se pudo encontrar una solucion")
 
